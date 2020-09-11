@@ -1,9 +1,14 @@
 package team2.hackathon;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
 
+@Getter @Setter @ToString
 public class User {
 
     //To help with auto increment. @GeneratedValue not available with MongoDB
@@ -12,7 +17,6 @@ public class User {
 
     @Id
     private long userId;
-
     private String username;
     private String password;
 
@@ -23,34 +27,6 @@ public class User {
         this.password = password;
     }
 
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("User [userId=%s, username=%s, password=%s]", userId, username, password);
-    }
 
     @Override
     public boolean equals(Object o){

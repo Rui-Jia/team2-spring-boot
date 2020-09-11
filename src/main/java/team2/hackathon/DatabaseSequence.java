@@ -1,8 +1,10 @@
 package team2.hackathon;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Data
 @Document(collection = "database_sequences")
 public class DatabaseSequence {
 
@@ -11,22 +13,5 @@ public class DatabaseSequence {
 
     private long seq;
 
-    //getters and setters omitted
 
-
-    public long getSeq() {
-        return seq;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setSeq(long seq) {
-        this.seq = seq;
-    }
 }

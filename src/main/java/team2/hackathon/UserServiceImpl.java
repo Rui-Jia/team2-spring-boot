@@ -32,6 +32,10 @@ public class UserServiceImpl {
 
     @Transactional
     public long insertNewUser(User user) {
+        User existingUser = userService.findUserByUsername(user.getUsername());
+        if(existingUser != null) {
+            throw new IllegalArgumentException("This username has already been taken.");
+        }
         user.setUserId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
         userService.save(user);
         return user.getUserId();
