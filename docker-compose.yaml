@@ -8,6 +8,8 @@ services:
     image: mongodb:1.0.0
     ports:
       - "27017:27017"
+    volumes:
+    - ./mongovol:/data/db
     restart: always
 
   testapp1:
