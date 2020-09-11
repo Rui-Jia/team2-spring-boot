@@ -1,0 +1,20 @@
+version: '3.0'
+services:
+  testmongo1:
+    container_name: testmongo1
+    build:
+      context: .
+      dockerfile: Dockerfile-mongo
+    image: mongodb:1.0.0
+    ports:
+      - "27017:27017"
+    restart: always
+
+  testapp1:
+    container_name: testapp1
+    build:
+      context: .
+      dockerfile: Dockerfile-app
+    image: myapp:1.0.0
+    links:
+      - testmongo1:testmongo1
