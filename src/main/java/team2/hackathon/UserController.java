@@ -28,10 +28,10 @@ public class UserController {
     public ResponseEntity<User> getUserByUserId(@PathVariable long id) {
         User user = us.findUserByUserId(id);
         if(user == null){
-            log.error("User with id: %s not found", id);
+            log.error("User with id: {} not found", id);
             return ResponseEntity.notFound().build();
         }
-        log.info("Requested user: " + user.toString());
+        log.info("Requested user: {}", user.toString());
         return ResponseEntity.ok().body(user);
     }
 
@@ -47,7 +47,7 @@ public class UserController {
             return ResponseEntity.badRequest().body("Username has been taken");
         }
         URI uri = URI.create("/" + id);
-        log.info("Created new user with id: %s", id);
+        log.info("Created new user with id: {}", id);
         return ResponseEntity.created(uri).body(u);
     }
 
@@ -56,10 +56,10 @@ public class UserController {
     public ResponseEntity<Long> updateUserPassword(@PathVariable long id, @RequestParam String oldPassword, @RequestParam String newPassword) {
         long id_returned = us.updateUserPassword(id, oldPassword, newPassword);
         if(id_returned == id) {
-            log.info("Updated user password for user with id: %s", id);
+            log.info("Updated user password for user with id: {}", id);
             return ResponseEntity.ok().body(id_returned);
         } else if(id_returned == -1){
-            log.error("User with id: %s not found", id);
+            log.error("User with id: {} not found", id);
             return ResponseEntity.notFound().build();
         } else {
             log.error("Unexpected error in password update");
@@ -72,10 +72,10 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable long id) {
         if (us.findUserByUserId(id) != null) {
             us.deleteUserByUserId(id);
-            log.info("Deleted user with id: %s", id);
+            log.info("Deleted user with id: {}", id);
             return ResponseEntity.ok().build();
         } else {
-            log.error("User with id: %s not found", id);
+            log.error("User with id: {} not found", id);
             return ResponseEntity.notFound().build();
         }
     }
