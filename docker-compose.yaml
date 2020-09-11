@@ -16,5 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile-app
     image: myapp:1.0.0
+    ports:
+      - "8111:8111"
     links:
       - testmongo1:testmongo1
