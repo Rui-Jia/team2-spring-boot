@@ -10,6 +10,8 @@ public interface UserService extends MongoRepository<User, Long> {
 
     User findUserByUserId(long id);
 
+    User findUserByUsername(String username);
+
     void deleteUserByUserId(long id);
 
     long insertNewUser(User u);
