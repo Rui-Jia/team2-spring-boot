@@ -9,7 +9,8 @@
   5. Persist data in volume
 
 •	Anything you didn’t quite get round to
-  1. AWS
+  1. Running application in Openshift (jar file too big unable to export to GitHub)
+  2. AWS
 
 •	Who did what
   1. Chew Jia Hui 
