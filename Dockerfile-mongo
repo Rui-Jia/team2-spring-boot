@@ -1,4 +1,2 @@
 FROM mongo:4.2.9
 EXPOSE 27017
-COPY mongodbsetup.js /docker-entrypoint-initdb.d/
-RUN sh -c 'chmod 777 /docker-entrypoint-initdb.d/mongodbsetup.js'

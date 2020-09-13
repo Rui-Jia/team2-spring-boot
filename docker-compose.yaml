@@ -1,7 +1,7 @@
 version: '3.0'
 services:
-  testmongo1:
-    container_name: testmongo1
+  mymongodb:
+    container_name: mymongodb
     build:
       context: .
       dockerfile: Dockerfile-mongo
@@ -12,13 +12,13 @@ services:
     - ./mongovol:/data/db
     restart: always
 
-  testapp1:
-    container_name: testapp1
+  application:
+    container_name: application
     build:
       context: .
-      dockerfile: Dockerfile-app
+      dockerfile: Dockerfile
     image: myapp:1.0.0
     ports:
       - "8111:8111"
     links:
-      - testmongo1:testmongo1
+      - mymongodb:mymongodb
