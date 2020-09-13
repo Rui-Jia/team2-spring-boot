@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Component
@@ -31,7 +32,7 @@ public class UserServiceImpl {
     }
 
     @Transactional
-    public long insertNewUser(User user) {
+    public BigInteger insertNewUser(User user) {
         User existingUser = userService.findUserByUsername(user.getUsername());
         if(existingUser != null) {
             throw new IllegalArgumentException("This username has already been taken.");
@@ -42,7 +43,7 @@ public class UserServiceImpl {
     }
 
     @Transactional
-    public long updateUserPassword(long id, String oldPassword, String newPassword) {
+    public BigInteger updateUserPassword(long id, String oldPassword, String newPassword) {
         User user = userService.findUserByUserId(id);
         System.out.println("in updateUserPassword" + user);
         System.out.println(oldPassword + " " + user.getPassword() + " " + oldPassword.equals(user.getPassword()));
@@ -51,7 +52,7 @@ public class UserServiceImpl {
             userService.save(user);
             return user.getUserId();
         } else {
-            return -1;
+            return BigInteger.valueOf(-1);
         }
     }
 

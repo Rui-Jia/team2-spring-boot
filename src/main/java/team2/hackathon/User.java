@@ -7,6 +7,8 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 
+import java.math.BigInteger;
+
 
 @Getter @Setter @ToString
 public class User {
@@ -16,12 +18,12 @@ public class User {
     public static final String SEQUENCE_NAME = "users_sequence";
 
     @Id
-    private long userId;
+    private BigInteger userId;
     private String username;
     private String password;
 
 
-    public User(long userId, String username, String password) {
+    public User(BigInteger userId, String username, String password) {
         this.userId = userId;
         this.username = username;
         this.password = password;
