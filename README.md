@@ -6,10 +6,11 @@
   2. Added support for Porject Lombok on entity classes
   3. Containerised application and mongodb
   4. Orchestrated containers (docker compose)
-  5. Persist data in volume
+  5. Persist data in volume (Docker)
+  6. Run application in OpenShift
 
 •	Anything you didn’t quite get round to
-  1. Running application in Openshift (jar file too big unable to export to GitHub)
+  1. Explore volumes Openshift 
   2. AWS
 
 •	Who did what
