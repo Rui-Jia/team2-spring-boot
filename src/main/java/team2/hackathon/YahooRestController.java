@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
+
 @Slf4j
 @RestController
 @RequestMapping("/yahoo")
@@ -49,7 +51,7 @@ public class YahooRestController {
     }
 
     private boolean validateUser(long id) {
-        User user = userService.findUserByUserId(id);
+        User user = userService.findUserByUserId(BigInteger.valueOf(id));
         if(user == null){
             log.error("User with id: {} not found", id);
             return false;

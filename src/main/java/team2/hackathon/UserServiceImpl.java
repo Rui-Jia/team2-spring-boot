@@ -23,7 +23,7 @@ public class UserServiceImpl {
     }
 
     public User getUserById(long id) {
-        User user = userService.findUserByUserId(id);
+        User user = userService.findUserByUserId(BigInteger.valueOf(id));
         if (user != null) {
             return user;
         } else {
@@ -44,7 +44,7 @@ public class UserServiceImpl {
 
     @Transactional
     public BigInteger updateUserPassword(long id, String oldPassword, String newPassword) {
-        User user = userService.findUserByUserId(id);
+        User user = userService.findUserByUserId(BigInteger.valueOf(id));
         System.out.println("in updateUserPassword" + user);
         System.out.println(oldPassword + " " + user.getPassword() + " " + oldPassword.equals(user.getPassword()));
         if (user != null && oldPassword.equals(user.getPassword())) {
@@ -58,7 +58,7 @@ public class UserServiceImpl {
 
     @Transactional
     public void deleteUser(long id) {
-        userService.deleteUserByUserId(id);
+        userService.deleteUserByUserId(BigInteger.valueOf(id));
     }
 
     @Transactional

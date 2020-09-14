@@ -6,6 +6,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class UserServiceTests {
     @Test
     public void getAllUsers_allUsersReturned(){
         System.out.println("1");
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
         //actual
         List<User> actual = new ArrayList<>();
@@ -46,54 +47,54 @@ public class UserServiceTests {
         System.out.println("2");
 
         //Actual
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
         //Expected
-        when(userService.findUserByUserId(eq(1l))).thenReturn(user);
+        when(userService.findUserByUserId(eq(BigInteger.ONE))).thenReturn(user);
 
-        assertEquals(userService.findUserByUserId(1l), user);
+        assertEquals(userService.findUserByUserId(BigInteger.ONE), user);
 
-        verify(userService).findUserByUserId(anyLong());
+        verify(userService).findUserByUserId(any());
     }
 
     @Test
     public void getUserById_userDoesNotExist(){
         System.out.println("3");
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
-        when(userService.findUserByUserId(eq(1l))).thenReturn(user);
-        when(userService.findUserByUserId(anyLong())).thenReturn(null);
+        when(userService.findUserByUserId(eq(BigInteger.ONE))).thenReturn(user);
+        when(userService.findUserByUserId(any())).thenReturn(null);
 
-        assertNull(userService.findUserByUserId(5l));
+        assertNull(userService.findUserByUserId(BigInteger.TEN));
 
-        verify(userService).findUserByUserId(anyLong());
+        verify(userService).findUserByUserId(any());
     }
 
     @Test
     public void insertNewUser_userInserted(){
         System.out.println("4");
 
-        User user = new User(2, "username2", "password2");
-        when(userService.insertNewUser(anyObject())).thenReturn(2l);
+        User user = new User(BigInteger.TWO, "username2", "password2");
+        when(userService.insertNewUser(any())).thenReturn(BigInteger.TWO);
 
-        Long id = userService.insertNewUser(user);
+        BigInteger id = userService.insertNewUser(user);
 
-        assertSame(id, 2l);
+        assertSame(id, BigInteger.TWO);
 
-        verify(userService).insertNewUser(anyObject());
+        verify(userService).insertNewUser(any());
     }
 
     @Test
     public void updateUserPassword_successfulChange(){
         System.out.println("5");
 
-        User user = new User(1, "username", "password");
-        when(userService.updateUserPassword(anyLong(), eq("password"), anyString())).thenReturn(user.getUserId());
+        User user = new User(BigInteger.ONE, "username", "password");
+        when(userService.updateUserPassword(any(), eq("password"), anyString())).thenReturn(user.getUserId());
 
-        Long id = userService.updateUserPassword(1, "password", "newPassword");
+        BigInteger id = userService.updateUserPassword(1, "password", "newPassword");
 
         assertSame(id, user.getUserId());
-        verify(userService).updateUserPassword(anyLong(), anyString(), anyString());
+        verify(userService).updateUserPassword(any(), anyString(), anyString());
     }
 
 
@@ -101,25 +102,25 @@ public class UserServiceTests {
     public void updateUserPassword_wrongOldPasswordFail(){
         System.out.println("6");
 
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
-        when(userService.updateUserPassword(anyLong(), eq("password"), anyString())).thenReturn(user.getUserId());
-        when(userService.updateUserPassword(anyLong(), anyString(), anyString())).thenReturn(-1l);
+        when(userService.updateUserPassword(any(), eq("password"), anyString())).thenReturn(user.getUserId());
+        when(userService.updateUserPassword(any(), anyString(), anyString())).thenReturn(BigInteger.valueOf(-1));
 
-        Long id = userService.updateUserPassword(1, "wrongPassword", "newPassword");
+        BigInteger id = userService.updateUserPassword(1, "wrongPassword", "newPassword");
 
-        assertSame(id, -1l);
-        verify(userService).updateUserPassword(anyLong(), anyString(), anyString());
+        assertSame(id, BigInteger.valueOf(-1));
+        verify(userService).updateUserPassword(any(), anyString(), anyString());
     }
 
     @Test
     public void deleteUser_userDeleted(){
         System.out.println("7");
 
-        doNothing().when(userService).deleteUserByUserId(anyLong());
-        userService.deleteUserByUserId(1);
+        doNothing().when(userService).deleteUserByUserId(any());
+        userService.deleteUserByUserId(BigInteger.ONE);
 
-        verify(userService).deleteUserByUserId(anyLong());
+        verify(userService).deleteUserByUserId(any());
     }
 
     @Test

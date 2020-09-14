@@ -2,21 +2,22 @@ package team2.hackathon;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public interface UserService extends MongoRepository<User, Long> {
 
     List<User> getAllUsers();
 
-    User findUserByUserId(long id);
+    User findUserByUserId(BigInteger id);
 
     User findUserByUsername(String username);
 
-    void deleteUserByUserId(long id);
+    void deleteUserByUserId(BigInteger id);
 
-    long insertNewUser(User u);
+    BigInteger insertNewUser(User u);
 
-    long updateUserPassword(long id, String oldPassword, String newPassword);
+    BigInteger updateUserPassword(long id, String oldPassword, String newPassword);
 
     void deleteAllUsers();
 

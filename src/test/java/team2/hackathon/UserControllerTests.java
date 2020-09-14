@@ -9,6 +9,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class UserControllerTests {
     @Test
     public void getAllUsers_allUsersReturned() {
 
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
         //actual
         List<User> actual = new ArrayList<>();
@@ -44,9 +45,9 @@ public class UserControllerTests {
 
     @Test
     public void getUserById_userReturned() {
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
-        when(userService.findUserByUserId(eq(1l))).thenReturn(user);
+        when(userService.findUserByUserId(eq(BigInteger.ONE))).thenReturn(user);
 
         ResponseEntity<User> responseEntity = userController.getUserByUserId(1l);
 
@@ -55,10 +56,10 @@ public class UserControllerTests {
 
     @Test
     public void getUserById_userDoesNotExist() {
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
-        when(userService.findUserByUserId(eq(1l))).thenReturn(user);
-        when(userService.findUserByUserId(anyLong())).thenReturn(null);
+        when(userService.findUserByUserId(eq(BigInteger.ONE))).thenReturn(user);
+        when(userService.findUserByUserId(any())).thenReturn(null);
 
         ResponseEntity<User> responseEntity = userController.getUserByUserId(10l);
 
@@ -70,7 +71,7 @@ public class UserControllerTests {
         MockHttpServletRequest request = new MockHttpServletRequest();
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
-        User user = new User(1, "username2", "password2");
+        User user = new User(BigInteger.ONE, "username2", "password2");
         when(userService.insertNewUser(any(User.class))).thenReturn(user.getUserId());
         ResponseEntity responseEntity = userController.insertNewUser(user);
 
@@ -80,9 +81,9 @@ public class UserControllerTests {
 
     @Test
     public void updateUserPassword_successfulChange() {
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
-        when(userService.updateUserPassword(anyLong(), eq("password"), anyString())).thenReturn(user.getUserId());
+        when(userService.updateUserPassword(any(), eq("password"), anyString())).thenReturn(user.getUserId());
 
         ResponseEntity<Long> responseEntity = userController.updateUserPassword(1l, "password", "newPassword");
 
@@ -91,10 +92,10 @@ public class UserControllerTests {
 
     @Test
     public void updateUserPassword_wrongOldPasswordFail(){
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
-        when(userService.updateUserPassword(anyLong(), eq("password"), anyString())).thenReturn(user.getUserId());
-        when(userService.updateUserPassword(anyLong(), anyString(), anyString())).thenReturn(-1l);
+        when(userService.updateUserPassword(any(), eq("password"), anyString())).thenReturn(user.getUserId());
+        when(userService.updateUserPassword(any(), anyString(), anyString())).thenReturn(BigInteger.valueOf(-1));
 
         ResponseEntity<Long> responseEntity = userController.updateUserPassword(1, "wrongPassword", "newPassword");
 
@@ -103,12 +104,12 @@ public class UserControllerTests {
 
     @Test
     public void deleteUser_userDeleted() {
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
         //method will call find user by id. need a user object.
-        when(userService.findUserByUserId(anyLong())).thenReturn(user);
+        when(userService.findUserByUserId(any())).thenReturn(user);
 
-        doNothing().when(userService).deleteUserByUserId(1l);
+        doNothing().when(userService).deleteUserByUserId(BigInteger.ONE);
         ResponseEntity<String> responseEntity = userController.deleteUser(1l);
 
         assertEquals(responseEntity.getStatusCodeValue(), 200);
@@ -117,13 +118,13 @@ public class UserControllerTests {
 
     @Test
     public void deleteUser_userNotExist() {
-        User user = new User(1, "username", "password");
+        User user = new User(BigInteger.ONE, "username", "password");
 
         //method will call find user by id. need a user object.
         when(userService.findUserByUserId(user.getUserId())).thenReturn(user);
-        when(userService.findUserByUserId(anyLong())).thenReturn(null);
+        when(userService.findUserByUserId(any())).thenReturn(null);
 
-        doNothing().when(userService).deleteUserByUserId(10l);
+        doNothing().when(userService).deleteUserByUserId(BigInteger.TEN);
         ResponseEntity<String> responseEntity = userController.deleteUser(10l);
 
         assertEquals(responseEntity.getStatusCodeValue(), 404);

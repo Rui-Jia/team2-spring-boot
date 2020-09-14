@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.net.URI;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class UserController {
 
     @GetMapping(value = "/user/{id}")
     public ResponseEntity<User> getUserByUserId(@PathVariable long id) {
-        User user = us.findUserByUserId(id);
+        User user = us.findUserByUserId(BigInteger.valueOf(id));
         if(user == null){
             log.error("User with id: {} not found", id);
             return ResponseEntity.notFound().build();
@@ -39,7 +40,7 @@ public class UserController {
     @PostMapping(value = "/user", consumes = {"application/json", "application/xml"},
             produces = {"application/json", "application/xml"})
     public ResponseEntity insertNewUser(@RequestBody User u) {
-        long id = 0;
+        BigInteger id = BigInteger.ZERO;
         try {
             id = us.insertNewUser(u);
         } catch(Exception e) {
@@ -54,11 +55,12 @@ public class UserController {
     //Update user password
     @PutMapping(value = "/user/{id}")
     public ResponseEntity<Long> updateUserPassword(@PathVariable long id, @RequestParam String oldPassword, @RequestParam String newPassword) {
-        long id_returned = us.updateUserPassword(id, oldPassword, newPassword);
-        if(id_returned == id) {
+        BigInteger id_returned = us.updateUserPassword(id, oldPassword, newPassword);
+
+        if(id_returned.longValue() == id) {
             log.info("Updated user password for user with id: {}", id);
-            return ResponseEntity.ok().body(id_returned);
-        } else if(id_returned == -1){
+            return ResponseEntity.ok().body(id_returned.longValue());
+        } else if(id_returned.longValue() == -1){
             log.error("User with id: {} not found", id);
             return ResponseEntity.notFound().build();
         } else {
@@ -70,8 +72,8 @@ public class UserController {
     //Delete users
     @DeleteMapping(value = "/user/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable long id) {
-        if (us.findUserByUserId(id) != null) {
-            us.deleteUserByUserId(id);
+        if (us.findUserByUserId(BigInteger.valueOf(id)) != null) {
+            us.deleteUserByUserId(BigInteger.valueOf(id));
             log.info("Deleted user with id: {}", id);
             return ResponseEntity.ok().build();
         } else {
